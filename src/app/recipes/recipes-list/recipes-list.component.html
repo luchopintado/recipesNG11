@@ -6,16 +6,11 @@
 <div class="row">
     <div class="col-12">
         <div class="list-unstyled my-2">
-            <a href="#" class="list-group-item list-group-item-action" *ngFor="let recipe of recipes">
-                <div class="media">
-                    <img [src]="recipe.imagePath" class="mr-3" [alt]="recipe.name" width="120">
-                    <div class="media-body">
-                    <h5 class="mt-0 mb-1">{{ recipe.name }}</h5>
-                    {{ recipe.description }}
-                    </div>
-                </div>
-            </a>
+            <app-recipe-item
+                *ngFor="let recipe of recipes"
+                [recipe]="recipe"
+                (recipeSelected)="onRecipeSelected(recipe)"></app-recipe-item>
         </div>
-        <app-recipe-item></app-recipe-item>
+
     </div>
 </div>

@@ -1,1 +1,9 @@
-<p>recipe-item works!</p>
+<a href="#" class="list-group-item list-group-item-action" (click)="selectItem(recipe)">
+    <div class="media">
+        <img [src]="recipe.imagePath" class="mr-3" [alt]="recipe.name" width="120">
+        <div class="media-body">
+        <h5 class="mt-0 mb-1">{{ recipe.name }}</h5>
+        {{ recipe.description.substr(0, 75) }}...
+        </div>
+    </div>
+</a>
