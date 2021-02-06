@@ -4,15 +4,27 @@
             <div class="form-row mb-3">
                 <div class="col-6 col-md-6">
                     <label for="name">Name</label>
-                    <input type="text" class="form-control" id="name" placeholder="Enter a name">
+                    <input
+                        type="text"
+                        class="form-control"
+                        id="name"
+                        placeholder="Enter a name"
+                        #nameInput
+                        />
                 </div>
                 <div class="col-6 col-md-4">
                     <label for="amount">Amount</label>
-                    <input type="text" class="form-control" id="amount" placeholder="Enter an amount">
+                    <input
+                        type="text"
+                        class="form-control"
+                        id="amount"
+                        placeholder="Enter an amount"
+                        #amountInput
+                        />
                 </div>
             </div>
 
-            <button type="submit" class="btn btn-success">Add</button>
+            <button type="submit" class="btn btn-success" (click)="addIngredient()">Add</button>
             <button type="submit" class="btn btn-danger mx-2">Delete</button>
             <button type="submit" class="btn btn-primary">Clear</button>
         </form>
