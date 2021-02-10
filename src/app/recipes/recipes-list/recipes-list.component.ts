@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Recipe } from '../../shared/recipe.model';
 import { RecipesService } from '../../shared/recipes.service';
 @Component({
@@ -9,9 +9,9 @@ import { RecipesService } from '../../shared/recipes.service';
 export class RecipesListComponent implements OnInit {
   recipes: Recipe[] = [];
 
-  constructor(private recipeSrv: RecipesService) { }
+  constructor(private recipeService: RecipesService) { }
 
   ngOnInit() {
-    this.recipes = this.recipeSrv.recipes;
+    this.recipes = this.recipeService.getRecipes();
   }
 }
