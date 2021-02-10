@@ -4,16 +4,15 @@
             <img [src]="recipe.imagePath" [alt]="recipe.name" class="card-img-top" />
             <div class="card-body">
                 <h5 class="card-title">{{ recipe.name }}</h5>
-                <div ngbDropdown class="d-inline-block">
+                <div class="dropdown d-inline-block" appDropdown>
                     <button
-                        class="btn btn-primary"
+                        class="btn btn-primary dropdown-toggle"
                         type="button"
                         id="ddManageRecipe"
-                        ngbDropdownToggle
                     >
                         Manage Recipe
                     </button>
-                    <div ngbDropdownMenu aria-labelledby="ddManageRecipe">
+                    <div class="dropdown-menu" aria-labelledby="ddManageRecipe">
                         <a class="dropdown-item" href="#">Add ingredients to Shopping List</a>
                         <a class="dropdown-item" href="#">Edit recipe</a>
                         <a class="dropdown-item" href="#">Delete recipe</a>
@@ -32,8 +31,5 @@
                 </ul>
             </div>
         </div>
-
-
-
     </div>
 </div>
