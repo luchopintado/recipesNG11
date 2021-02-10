@@ -13,7 +13,7 @@ export class ShoppingEditComponent implements OnInit {
   @ViewChild('nameInput', { static: true }) nameInput: ElementRef | undefined;
   @ViewChild('amountInput', { static: true }) amountInput: ElementRef | undefined;
 
-  constructor(private shoppingListSrv: ShoppingListService) {}
+  constructor(private shoppingListService: ShoppingListService) {}
 
   ngOnInit() {
   }
@@ -34,7 +34,7 @@ export class ShoppingEditComponent implements OnInit {
 
     if (name && amount) {
       const ingredient = new Ingredient(name, amount);
-      this.shoppingListSrv.addIngredient(ingredient);
+      this.shoppingListService.addIngredient(ingredient);
       this.clearValues();
     }
 
