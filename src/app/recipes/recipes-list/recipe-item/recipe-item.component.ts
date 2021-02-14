@@ -1,6 +1,5 @@
 import { Component, Input } from '@angular/core';
 import { Recipe } from '../../../shared/recipe.model';
-import { RecipesService } from '../../../shared/recipes.service';
 import {EmptyRecipe} from '../../../shared/empty-recipe';
 
 @Component({
@@ -11,12 +10,10 @@ import {EmptyRecipe} from '../../../shared/empty-recipe';
 export class RecipeItemComponent {
 
   @Input() recipe: Recipe;
+  @Input() index = 0;
 
-  constructor(private recipeSrv: RecipesService) {
+  constructor() {
     this.recipe = EmptyRecipe;
   }
 
-  onSelected(): void {
-    this.recipeSrv.recipeSelected.emit(this.recipe);
-  }
 }

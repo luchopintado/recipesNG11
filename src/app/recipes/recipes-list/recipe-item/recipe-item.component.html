@@ -1,4 +1,7 @@
-<a class="list-group-item list-group-item-action" (click)="onSelected()">
+<a
+  class="list-group-item list-group-item-action"
+  style="cursor: pointer"
+  [routerLink]="['/recipes', index]">
     <div class="media">
         <img [src]="recipe.imagePath" class="mr-3" [alt]="recipe.name" width="120">
         <div class="media-body">
