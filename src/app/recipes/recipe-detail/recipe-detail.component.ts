@@ -12,17 +12,20 @@ import {EmptyRecipe} from '../../shared/empty-recipe';
 })
 export class RecipeDetailComponent implements OnInit{
   recipe: Recipe;
+  index: number;
 
   constructor(
     private recipesService: RecipesService,
     private route: ActivatedRoute
   ) {
     this.recipe = EmptyRecipe;
+    this.index = 0;
   }
 
   ngOnInit(): void {
     this.route.params.subscribe((params: Params) => {
-      this.recipe = this.recipesService.getRecipe(+params.id);
+      this.index = +params.id;
+      this.recipe = this.recipesService.getRecipe(this.index);
     });
   }
 
