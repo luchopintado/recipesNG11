@@ -11,7 +11,7 @@ import {Subject} from 'rxjs';
 export class RecipesService {
   recipesChanged = new Subject<Recipe[]>();
   private recipes: Recipe[] = [
-    new Recipe(
+    /* new Recipe(
       'Arroz con pollo',
       'El arroz con pollo es un plato típico de España y América Latina​ con variaciones regionales según el país. Consiste en arroz cocinado con pollo, en presas o desmechado, verduras, y sazonado con especias.',
       'assets/img/arroz_con_pollo.jpg',
@@ -46,10 +46,15 @@ export class RecipesService {
         new Ingredient('Cebolla', 1),
         new Ingredient('Ahi', 1),
       ]
-    )
+    ) */
   ];
 
   constructor(private slService: ShoppingListService) {}
+
+  setRecipes(recipes: Recipe[]): void {
+    this.recipes = recipes;
+    this.recipesChanged.next(this.recipes.slice());
+  }
 
   getRecipes(): Recipe[] {
     return this.recipes.slice();

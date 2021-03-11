@@ -61,6 +61,9 @@ export class RecipeEditComponent implements OnInit {
             );
           }
         }
+      } else {
+        this.editMode = false;
+        this.onCancel();
       }
     }
 
