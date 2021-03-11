@@ -1,9 +1,11 @@
-import { HttpClient } from "@angular/common/http";
-import { Injectable } from "@angular/core";
-import { Observable } from "rxjs";
+import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
 import { RecipesService } from './recipes.service';
 import { Recipe } from './recipe.model';
 import { map, tap } from 'rxjs/operators';
+
+const RECIPE_STORAGE_URL = 'https://ng-complete-guide-e8270-default-rtdb.firebaseio.com/recipes.json';
 
 @Injectable({
     providedIn: 'root'
@@ -16,13 +18,13 @@ export class DataStorageService {
     storeRecipes(): void {
         const recipes = this.recipeService.getRecipes();
         this.httpClient
-            .put('https://ng-complete-guide-e8270-default-rtdb.firebaseio.com/recipes.json', recipes)
+            .put(RECIPE_STORAGE_URL, recipes)
             .subscribe(response => console.log(response));
     }
 
     fetchRecipes(): Observable<Recipe[]> {
         return this.httpClient
-            .get<Recipe[]>('https://ng-complete-guide-e8270-default-rtdb.firebaseio.com/recipes.json')
+            .get<Recipe[]>(RECIPE_STORAGE_URL)
             .pipe(
                 map(recipes => {
                     return recipes.map(recipe => ({
@@ -34,10 +36,5 @@ export class DataStorageService {
                     this.recipeService.setRecipes(recipes)
                 })
             );
-            /*
-            .subscribe(recipes => {
-                this.recipeService.setRecipes(recipes)
-            });
-            */
     }
 }
