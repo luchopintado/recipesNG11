@@ -15,17 +15,20 @@
         </button>
         <div class="collapse navbar-collapse" [class.show]="!collapsed" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
-                <li class="nav-item" routerLinkActive="active">
+                <li class="nav-item" routerLinkActive="active" *ngIf="isAuthenticated">
                     <a class="nav-link" routerLink="/recipes" >Recipes</a>
                 </li>
-                <li class="nav-item" routerLinkActive="active">
+                <li class="nav-item" routerLinkActive="active" *ngIf="isAuthenticated">
                     <a class="nav-link" routerLink="/shopping-list" >Shopping List</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Share</a>
+                <li class="nav-item" *ngIf="!isAuthenticated">
+                    <a class="nav-link" routerLink="/auth">Authenticate</a>
                 </li>
             </ul>
-            <ul class="navbar-nav ml-auto">
+            <ul class="navbar-nav ml-auto" *ngIf="isAuthenticated">
+                <li class="nav-item">
+                    <a class="nav-link" (click)="onLogout()">Logout</a>
+                </li>
                 <li ngbDropdown display="dynamic" placement="bottom-right" class="nav-item">
                     <a class="nav-link" id="navbarDropdown" role="button" ngbDropdownToggle>
                         Manage
