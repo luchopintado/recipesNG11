@@ -2,13 +2,15 @@
     <div class="col-12">
 
         <form #authForm="ngForm" (ngSubmit)="onSubmit(authForm)">
-            <div class="alert alert-danger" *ngIf="!!error">
+            <!--div class="alert alert-danger" *ngIf="!!error">
                 <span>{{ error }}</span>
 
                 <button type="button" class="close" aria-label="Close" (click)="onDismissError()">
                   <span aria-hidden="true">&times;</span>
                 </button>
-            </div>
+            </div-->
+
+            <app-alert [message]="error" *ngIf="!!error" (close)="onDismissError()"></app-alert>
             <div *ngIf="isLoading" class="d-flex justify-content-center">
               <app-loading-spinner></app-loading-spinner>
             </div>
