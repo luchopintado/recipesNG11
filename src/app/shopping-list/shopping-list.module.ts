@@ -11,7 +11,7 @@ import {CommonModule} from '@angular/common';
     CommonModule,
     FormsModule,
     RouterModule.forChild([
-      {path: 'shopping-list', component: ShoppingListComponent},
+      {path: '', component: ShoppingListComponent},
     ]),
   ],
   declarations: [
