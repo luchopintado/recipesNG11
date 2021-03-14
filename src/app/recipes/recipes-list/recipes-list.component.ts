@@ -1,6 +1,6 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import { Recipe } from '../../shared/recipe.model';
-import { RecipesService } from '../../shared/recipes.service';
+import { Recipe } from '../recipe.model';
+import { RecipesService } from '../recipes.service';
 import {Subscription} from 'rxjs';
 @Component({
   selector: 'app-recipes-list',

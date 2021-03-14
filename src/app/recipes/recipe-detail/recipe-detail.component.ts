@@ -1,9 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Params, Router} from '@angular/router';
 
-import { Recipe } from '../../shared/recipe.model';
-import { RecipesService } from '../../shared/recipes.service';
-import {EmptyRecipe} from '../../shared/empty-recipe';
+import { Recipe } from '../recipe.model';
+import { RecipesService } from '../recipes.service';
 
 @Component({
   selector: 'app-recipe-detail',
@@ -11,7 +10,7 @@ import {EmptyRecipe} from '../../shared/empty-recipe';
   styleUrls: ['./recipe-detail.component.css']
 })
 export class RecipeDetailComponent implements OnInit{
-  recipe: Recipe;
+  recipe: Recipe | null = null;
   index: number;
 
   constructor(
@@ -19,7 +18,6 @@ export class RecipeDetailComponent implements OnInit{
     private route: ActivatedRoute,
     private router: Router
   ) {
-    this.recipe = EmptyRecipe;
     this.index = 0;
   }
 
@@ -31,7 +29,7 @@ export class RecipeDetailComponent implements OnInit{
   }
 
   onAddToShoppingList(): void {
-    this.recipesService.addIngredientsToShoppingList(this.recipe.ingredients);
+    this.recipesService.addIngredientsToShoppingList(this.recipe?.ingredients || []);
   }
 
   onDeleteRecipe(): void {

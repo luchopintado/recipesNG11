@@ -5,14 +5,10 @@
             <div class="card-body">
                 <h5 class="card-title">{{ recipe.name }}</h5>
                 <div class="dropdown d-inline-block" appDropdown>
-                    <button
-                        class="btn btn-primary dropdown-toggle"
-                        type="button"
-                        id="ddManageRecipe"
-                    >
+                    <button class="btn btn-primary dropdown-toggle" type="button" id="ddManageRecipe">
                         Manage Recipe
                     </button>
-                    <div class="dropdown-menu" aria-labelledby="ddManageRecipe">
+                    <div aria-labelledby="ddManageRecipe" class="dropdown-menu">
                         <a class="dropdown-item" (click)="onAddToShoppingList()">Add ingredients to Shopping List</a>
                         <a class="dropdown-item" routerLink="edit">Edit recipe</a>
                         <a class="dropdown-item" (click)="onDeleteRecipe()">Delete recipe</a>
@@ -24,7 +20,9 @@
                 </p>
                 <h4>Ingredients</h4>
                 <ul>
-                    <li *ngFor="let ingred of recipe.ingredients">{{ ingred.name }} ({{ ingred.amount }})</li>
+                    <li *ngFor="let ingredient of recipe.ingredients">
+                      {{ ingredient.name }} ({{ ingredient.amount }})
+                    </li>
                 </ul>
             </div>
         </div>

@@ -1,6 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { Recipe } from '../../../shared/recipe.model';
-import {EmptyRecipe} from '../../../shared/empty-recipe';
+import { Recipe } from '../../recipe.model';
 
 @Component({
   selector: 'app-recipe-item',
@@ -9,11 +8,9 @@ import {EmptyRecipe} from '../../../shared/empty-recipe';
 })
 export class RecipeItemComponent {
 
-  @Input() recipe: Recipe;
+  @Input() recipe: Recipe | null = null;
   @Input() index = 0;
 
-  constructor() {
-    this.recipe = EmptyRecipe;
-  }
+  constructor() {}
 
 }
