@@ -29,11 +29,11 @@
                 <li class="nav-item">
                     <a class="nav-link" (click)="onLogout()">Logout</a>
                 </li>
-                <li ngbDropdown display="dynamic" placement="bottom-right" class="nav-item">
-                    <a class="nav-link" id="navbarDropdown" role="button" ngbDropdownToggle>
+                <li class="nav-item dropdown" appDropdown>
+                    <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" >
                         Manage
                     </a>
-                    <div aria-labelledby="navbarDropdown" ngbDropdownMenu>
+                    <div aria-labelledby="navbarDropdown" class="dropdown-menu">
                         <a class="dropdown-item" (click)="onSaveData()" >Save data</a>
                         <a class="dropdown-item" (click)="onFetchData()">Fetch data</a>
                         <div class="dropdown-divider"></div>

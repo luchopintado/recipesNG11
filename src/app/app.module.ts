@@ -11,7 +11,6 @@ import { RecipeDetailComponent } from './recipes/recipe-detail/recipe-detail.com
 import { RecipeItemComponent } from './recipes/recipes-list/recipe-item/recipe-item.component';
 import { ShoppingListComponent } from './shopping-list/shopping-list.component';
 import { ShoppingEditComponent } from './shopping-list/shopping-edit/shopping-edit.component';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { DropdownDirective } from './shared/dropdown.directive';
 import { AppRoutingModule } from './app-routing.module';
 import { RecipeStartComponent } from './recipes/recipe-start/recipe-start.component';
@@ -43,7 +42,6 @@ import {PlaceholderDirective} from './shared/placeholder/placeholder.directive';
   ],
   imports: [
     BrowserModule,
-    NgbModule,
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
