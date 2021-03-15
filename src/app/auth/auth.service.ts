@@ -4,9 +4,10 @@ import { BehaviorSubject, Observable, throwError} from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 import { User } from './user.model';
 import {Router} from '@angular/router';
+import { environment } from '../../environments/environment';
 
 const LS_USER = 'userData';
-const API_KEY = 'AIzaSyD7sNdmQ1Jb0DLG1KTJBsFpoGCj40PRqCU';
+const API_KEY = environment.firebaseAPIKey;
 const SIGNUP_END_POINT = `https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${API_KEY}`;
 const LOGIN_END_POINT = `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${API_KEY}`;
 
