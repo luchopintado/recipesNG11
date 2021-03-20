@@ -1,18 +1,25 @@
-import {Injectable} from '@angular/core';
+import { Store } from '@ngrx/store';
 import {HttpEvent, HttpHandler, HttpInterceptor, HttpParams, HttpRequest} from '@angular/common/http';
 import {Observable} from 'rxjs';
-import {AuthService} from './auth.service';
-import {exhaustMap, take} from 'rxjs/operators';
+import {Injectable} from '@angular/core';
+import { exhaustMap, take, map } from 'rxjs/operators';
+
+import * as fromAppStore from '../store/app.reducer';
+import * as AuthActions from './store/auth.actions';
+import * as fromAuthStore from './store/auth.reducer';
+// import {AuthService} from './auth.service';
 
 @Injectable()
 export class AuthInterceptorService implements HttpInterceptor {
   constructor(
-    private authService: AuthService
+    // private authService: AuthService,
+    private store: Store<fromAppStore.AppState>
   ) {}
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    return this.authService.userSubject.pipe(
+    return this.store.select('auth').pipe(
       take(1),
+      map((authState: fromAuthStore.AuthState) => authState.user),
       exhaustMap(user => {
         if (user) {
           const modifiedRequest = req.clone({

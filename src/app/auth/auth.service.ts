@@ -1,10 +1,14 @@
+import { Store } from '@ngrx/store';
 import { Injectable} from '@angular/core';
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { BehaviorSubject, Observable, throwError} from 'rxjs';
-import { catchError, tap } from 'rxjs/operators';
-import { User } from './user.model';
 import {Router} from '@angular/router';
+import { catchError, tap } from 'rxjs/operators';
+import { BehaviorSubject, Observable, throwError} from 'rxjs';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+
+import { User } from './user.model';
 import { environment } from '../../environments/environment';
+import * as fromAppStore from '../store/app.reducer';
+import * as AuthActions from './store/auth.actions';
 
 const LS_USER = 'userData';
 const API_KEY = environment.firebaseAPIKey;
@@ -32,6 +36,7 @@ export class AuthService {
   constructor(
     private http: HttpClient,
     private router: Router,
+    private store: Store<fromAppStore.AppState>,
   ) {}
 
   private handleAuthError(errorResponse: HttpErrorResponse): Observable<any> {
@@ -67,7 +72,8 @@ export class AuthService {
   private handleAuthentication(email: string, userId: string, token: string, expiresIn: string): any {
     const expirationDate = new Date(new Date().getTime() + (+expiresIn * 1000));
     const user = new User(email, userId, token, expirationDate);
-    this.userSubject.next(user);
+    // this.userSubject.next(user);
+    this.store.dispatch(new AuthActions.Login({ email, userId, token, expirationDate }));
     this.autoLogout(+expiresIn * 1000);
     localStorage.setItem(LS_USER, JSON.stringify(user));
   }
@@ -102,7 +108,8 @@ export class AuthService {
 
   logout(): void {
     localStorage.removeItem(LS_USER);
-    this.userSubject.next(null);
+    // this.userSubject.next(null);
+    this.store.dispatch(new AuthActions.Logout());
     this.router.navigate(['/auth']);
     if (this.tokenExpirationTimer) {
       clearTimeout(this.tokenExpirationTimer);
@@ -135,7 +142,13 @@ export class AuthService {
     );
 
     if (loadedUser.token) {
-      this.userSubject.next(loadedUser);
+      // this.userSubject.next(loadedUser);
+      this.store.dispatch(new AuthActions.Login({
+        email: loadedUser.email,
+        userId: loadedUser.id,
+        token: loadedUser.token,
+        expirationDate: new Date(userData._tokenExpirationDate)
+      }));
       const expirationDuration = new Date(userData._tokenExpirationDate).getTime() - new Date().getTime();
       this.autoLogout(expirationDuration);
     }
