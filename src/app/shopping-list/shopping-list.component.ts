@@ -3,8 +3,8 @@ import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 
 import { Ingredient } from '../shared/ingredient.model';
-import * as fromShoppingListStore from './store/shopping-list.reducer';
 import * as ShoppingListActions from './store/shopping-list.actions';
+import {AppState} from '../store/app.reducer';
 
 @Component({
   selector: 'app-shopping-list',
@@ -16,7 +16,7 @@ export class ShoppingListComponent implements OnInit {
   ingredientsObs: Observable<{ ingredients: Ingredient[]}>;
 
   constructor(
-    private store: Store<fromShoppingListStore.AppState>,
+    private store: Store<AppState>,
   ) { }
 
   ngOnInit(): void {
