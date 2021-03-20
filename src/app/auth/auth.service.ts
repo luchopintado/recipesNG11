@@ -30,7 +30,7 @@ interface AuthResponseType {
   providedIn: 'root'
 })
 export class AuthService {
-  userSubject = new BehaviorSubject<User|null>(null);
+  // userSubject = new BehaviorSubject<User|null>(null);
   tokenExpirationTimer: any;
 
   constructor(
@@ -72,7 +72,6 @@ export class AuthService {
   private handleAuthentication(email: string, userId: string, token: string, expiresIn: string): any {
     const expirationDate = new Date(new Date().getTime() + (+expiresIn * 1000));
     const user = new User(email, userId, token, expirationDate);
-    // this.userSubject.next(user);
     this.store.dispatch(new AuthActions.Login({ email, userId, token, expirationDate }));
     this.autoLogout(+expiresIn * 1000);
     localStorage.setItem(LS_USER, JSON.stringify(user));
@@ -107,10 +106,9 @@ export class AuthService {
   }
 
   logout(): void {
-    localStorage.removeItem(LS_USER);
-    // this.userSubject.next(null);
     this.store.dispatch(new AuthActions.Logout());
     this.router.navigate(['/auth']);
+    localStorage.removeItem(LS_USER);
     if (this.tokenExpirationTimer) {
       clearTimeout(this.tokenExpirationTimer);
     }
@@ -142,7 +140,6 @@ export class AuthService {
     );
 
     if (loadedUser.token) {
-      // this.userSubject.next(loadedUser);
       this.store.dispatch(new AuthActions.Login({
         email: loadedUser.email,
         userId: loadedUser.id,

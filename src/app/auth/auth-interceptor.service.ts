@@ -5,14 +5,12 @@ import {Injectable} from '@angular/core';
 import { exhaustMap, take, map } from 'rxjs/operators';
 
 import * as fromAppStore from '../store/app.reducer';
-import * as AuthActions from './store/auth.actions';
 import * as fromAuthStore from './store/auth.reducer';
-// import {AuthService} from './auth.service';
+import * as AuthActions from './store/auth.actions';
 
 @Injectable()
 export class AuthInterceptorService implements HttpInterceptor {
   constructor(
-    // private authService: AuthService,
     private store: Store<fromAppStore.AppState>
   ) {}
 
