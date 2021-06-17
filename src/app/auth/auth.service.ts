@@ -2,7 +2,7 @@ import { Store } from '@ngrx/store';
 import { Injectable} from '@angular/core';
 import {Router} from '@angular/router';
 import { catchError, tap } from 'rxjs/operators';
-import { BehaviorSubject, Observable, throwError} from 'rxjs';
+import { Observable, throwError} from 'rxjs';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 
 import { User } from './user.model';
@@ -13,7 +13,7 @@ import * as AuthActions from './store/auth.actions';
 const LS_USER = 'userData';
 const API_KEY = environment.firebaseAPIKey;
 const SIGNUP_END_POINT = `https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${API_KEY}`;
-const LOGIN_END_POINT = `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${API_KEY}`;
+
 
 interface AuthResponseType {
   displayName?: string;
@@ -30,7 +30,6 @@ interface AuthResponseType {
   providedIn: 'root'
 })
 export class AuthService {
-  // userSubject = new BehaviorSubject<User|null>(null);
   tokenExpirationTimer: any;
 
   constructor(
@@ -92,12 +91,7 @@ export class AuthService {
   }
 
   login(email: string, password: string): Observable<AuthResponseType> {
-    return this.http
-      .post<AuthResponseType>(LOGIN_END_POINT, {
-        email,
-        password,
-        returnSecureToken: true,
-      }).pipe(
+    .pipe(
         catchError(this.handleAuthError),
         tap(responseData => {
           this.handleAuthentication(responseData.email, responseData.localId, responseData.idToken, responseData.expiresIn);
