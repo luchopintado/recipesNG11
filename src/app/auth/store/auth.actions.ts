@@ -8,12 +8,13 @@ export const LOGOUT = '[AUTH] LOGOUT';
 export class Login implements Action {
   type = LOGIN;
 
-  constructor(public payload: {
-    email: string,
-    userId: string,
-    token: string,
-    expirationDate: Date,
-  }) {}
+  constructor(
+    public payload: {
+      email: string,
+      userId: string,
+      token: string,
+      expirationDate: Date,
+    }) {}
 }
 
 export class Logout implements Action {

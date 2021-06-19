@@ -6,7 +6,6 @@ import { exhaustMap, take, map } from 'rxjs/operators';
 
 import * as fromAppStore from '../store/app.reducer';
 import * as fromAuthStore from './store/auth.reducer';
-import * as AuthActions from './store/auth.actions';
 
 @Injectable()
 export class AuthInterceptorService implements HttpInterceptor {
@@ -19,6 +18,7 @@ export class AuthInterceptorService implements HttpInterceptor {
       take(1),
       map((authState: fromAuthStore.AuthState) => authState.user),
       exhaustMap(user => {
+        console.log(user?.token);
         if (user) {
           const modifiedRequest = req.clone({
             params: new HttpParams().set('auth', user.token || '')

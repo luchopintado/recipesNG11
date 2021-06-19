@@ -26,10 +26,9 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.userSubscription = this.store.select('auth')
-      .pipe(
-        map((authState: fromAuthStore.AuthState) => authState.user )
-      )
+    this.userSubscription = this.store
+      .select('auth')
+      .pipe(map((authState: fromAuthStore.AuthState) => authState.user ))
       .subscribe(user => {
         this.isAuthenticated = !!user;
       });

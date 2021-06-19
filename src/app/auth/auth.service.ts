@@ -2,7 +2,7 @@ import { Store } from '@ngrx/store';
 import { Injectable} from '@angular/core';
 import {Router} from '@angular/router';
 import { catchError, tap } from 'rxjs/operators';
-import { Observable, throwError} from 'rxjs';
+import { BehaviorSubject, Observable, throwError} from 'rxjs';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 
 import { User } from './user.model';
@@ -10,12 +10,12 @@ import { environment } from '../../environments/environment';
 import * as fromAppStore from '../store/app.reducer';
 import * as AuthActions from './store/auth.actions';
 
-const LS_USER = 'userData';
+const LOCAL_STORAGE_USER = 'userData';
 const API_KEY = environment.firebaseAPIKey;
 const SIGNUP_END_POINT = `https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${API_KEY}`;
+const SIGNIN_END_POINT = `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${API_KEY}`;
 
-
-interface AuthResponseType {
+export interface AuthResponseType {
   displayName?: string;
   email:	string;
   expiresIn:	string;
@@ -68,12 +68,12 @@ export class AuthService {
     return throwError(errorMessage);
   }
 
-  private handleAuthentication(email: string, userId: string, token: string, expiresIn: string): any {
+  private handleAuthentication(email: string, userId: string, token: string, expiresIn: string = "500"): any {
     const expirationDate = new Date(new Date().getTime() + (+expiresIn * 1000));
     const user = new User(email, userId, token, expirationDate);
     this.store.dispatch(new AuthActions.Login({ email, userId, token, expirationDate }));
     this.autoLogout(+expiresIn * 1000);
-    localStorage.setItem(LS_USER, JSON.stringify(user));
+    localStorage.setItem(LOCAL_STORAGE_USER, JSON.stringify(user));
   }
 
   signup(email: string, password: string): Observable<AuthResponseType> {
@@ -84,16 +84,27 @@ export class AuthService {
         returnSecureToken: true,
       }).pipe(
         catchError(this.handleAuthError),
-        tap(responseData => {
-          this.handleAuthentication(responseData.email, responseData.localId, responseData.idToken, responseData.expiresIn);
+        tap((responseData: any) => {
+          this.handleAuthentication(
+            responseData.email,
+            responseData.localId,
+            responseData.idToken,
+            responseData.expiresIn
+          );
         })
       );
   }
 
   login(email: string, password: string): Observable<AuthResponseType> {
+    return this.http
+    .post<AuthResponseType>(SIGNIN_END_POINT, {
+      email,
+      password,
+      returnSecureToken: true,
+    })
     .pipe(
         catchError(this.handleAuthError),
-        tap(responseData => {
+        tap((responseData: any) => {
           this.handleAuthentication(responseData.email, responseData.localId, responseData.idToken, responseData.expiresIn);
         })
       );
@@ -102,7 +113,7 @@ export class AuthService {
   logout(): void {
     this.store.dispatch(new AuthActions.Logout());
     this.router.navigate(['/auth']);
-    localStorage.removeItem(LS_USER);
+    localStorage.removeItem(LOCAL_STORAGE_USER);
     if (this.tokenExpirationTimer) {
       clearTimeout(this.tokenExpirationTimer);
     }
@@ -110,7 +121,7 @@ export class AuthService {
   }
 
   autoLogin(): void {
-    const lsData = localStorage.getItem(LS_USER);
+    const lsData = localStorage.getItem(LOCAL_STORAGE_USER);
     let userData: {
       email: string;
       id: string;
@@ -134,7 +145,8 @@ export class AuthService {
     );
 
     if (loadedUser.token) {
-      this.store.dispatch(new AuthActions.Login({
+      this.store.dispatch(
+        new AuthActions.Login({
         email: loadedUser.email,
         userId: loadedUser.id,
         token: loadedUser.token,

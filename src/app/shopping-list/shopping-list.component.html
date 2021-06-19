@@ -2,9 +2,9 @@
     <div class="col-10">
         <app-shopping-edit></app-shopping-edit>
         <hr />
-        <div class="list-group">
+        <div class="list-group" *ngIf="(ingredientsObs|async) as ingredientsResultObs">
             <a class="list-group-item list-group-item-action"
-                *ngFor="let ingredient of (ingredientsObs|async).ingredients; let i = index"
+                *ngFor="let ingredient of ingredientsResultObs.ingredients; let i = index"
                 (click)="onEditItem(i)">
               {{ ingredient.name }} ({{ ingredient.amount }})
             </a>
